@@ -47,5 +47,5 @@ Pod::Spec.new do |s|
 #                          'PPSPrivateStaticLibrary/Classes/Public/PPSPublic2.h']
 
 #这里可以声明你的静态库依赖的其他静态库
-  # s.dependency 'AFNetworking', '~> 2.3'
+s.dependency 'AFNetworking', 'SAMKeychain','UMengUShare/Social/QQ','UMengUShare/Social/WeChat'
 end
