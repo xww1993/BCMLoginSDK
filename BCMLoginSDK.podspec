@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 
   s.author           = { 'BCMLoginSDK' => 'ppsheep.qian@gmail.com' }
 
-  s.source           = { :git => "ssh://git@phab.srv.codemao.cn/source/ios_common_spec_repo.git", :tag => "#{s.version}" }
+  s.source           = { :git => "https://github.com/xww1993/BCMLoginSDK.git", :tag => "#{s.version}" }
 
 #最低iOS系统要求
   s.ios.deployment_target = '8.0'
@@ -32,8 +32,8 @@ Pod::Spec.new do |s|
 #s.libraries = 'resolv'
 
 #这里声明的存放源文件的地址，就是我们实际写的代码
-  s.source_files = 'BCMLoginSDK/*.framework'
-
+ # s.source_files = 'BCMLoginSDK/*.framework'
+  s.vendored_frameworks = 'BCMLoginSDK/*.framework'
 #这里可以用来存放你的资源文件，图片，证书等等
   # s.resource_bundles = {
   #   'PPSPrivateStaticLibrary' => ['PPSPrivateStaticLibrary/Assets/*.png']
