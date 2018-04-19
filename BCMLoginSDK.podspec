@@ -53,4 +53,9 @@ s.dependency 'SAMKeychain'
 s.dependency 'UMengUShare/Social/QQ'
 s.dependency 'UMengUShare/Social/WeChat'
 
+s.subspec 'BCMLoginSDK' do |sss|
+sss.vendored_frameworks = 'BCMLoginSDK/GT3Captcha.framework'
+
+
+end
 end
