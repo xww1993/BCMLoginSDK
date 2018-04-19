@@ -33,7 +33,8 @@ Pod::Spec.new do |s|
 
 #这里声明的存放源文件的地址，就是我们实际写的代码
  # s.source_files = 'BCMLoginSDK/*.framework'
-  s.vendored_frameworks = 'BCMLoginSDK/*.framework'
+ s.vendored_frameworks = 'BCMLoginSDK/BCMLoginSDK.framework'
+s.vendored_frameworks = 'BCMLoginSDK/GT3Captcha.framework'
 #这里可以用来存放你的资源文件，图片，证书等等
   # s.resource_bundles = {
   #   'PPSPrivateStaticLibrary' => ['PPSPrivateStaticLibrary/Assets/*.png']
@@ -47,5 +48,9 @@ Pod::Spec.new do |s|
 #                          'PPSPrivateStaticLibrary/Classes/Public/PPSPublic2.h']
 
 #这里可以声明你的静态库依赖的其他静态库
-s.dependency 'AFNetworking', 'SAMKeychain','UMengUShare/Social/QQ','UMengUShare/Social/WeChat'
+s.dependency 'AFNetworking'
+s.dependency 'SAMKeychain'
+s.dependency 'UMengUShare/Social/QQ'
+s.dependency 'UMengUShare/Social/WeChat'
+
 end
