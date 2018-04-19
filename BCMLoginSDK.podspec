@@ -34,7 +34,7 @@ Pod::Spec.new do |s|
 #这里声明的存放源文件的地址，就是我们实际写的代码
  # s.source_files = 'BCMLoginSDK/*.framework'
  s.vendored_frameworks = 'BCMLoginSDK/BCMLoginSDK.framework'
-s.vendored_frameworks = 'BCMLoginSDK/GT3Captcha.framework'
+#s.vendored_frameworks = 'BCMLoginSDK/GT3Captcha.framework'
 #这里可以用来存放你的资源文件，图片，证书等等
   # s.resource_bundles = {
   #   'PPSPrivateStaticLibrary' => ['PPSPrivateStaticLibrary/Assets/*.png']
