@@ -54,7 +54,7 @@ s.dependency 'UMengUShare/Social/QQ'
 s.dependency 'UMengUShare/Social/WeChat'
 
 #s.subspec 'BCMLoginSDK' do |sss|
-s.vendored_frameworks = 'BCMLoginSDK/GT3Captcha.framework'
+#s.vendored_frameworks = 'BCMLoginSDK/GT3Captcha.framework'
 
 
 end
