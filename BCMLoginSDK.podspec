@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
 #s.libraries = 'resolv'
 
 #这里声明的存放源文件的地址，就是我们实际写的代码
- # s.source_files = 'BCMLoginSDK/*.framework'
+# s.source_files = 'BCMLoginSDK/*.framework'
  s.vendored_frameworks = 'BCMLoginSDK/BCMLoginSDK.framework'
 #s.vendored_frameworks = 'BCMLoginSDK/GT3Captcha.framework'
 #这里可以用来存放你的资源文件，图片，证书等等
@@ -53,8 +53,8 @@ s.dependency 'SAMKeychain'
 s.dependency 'UMengUShare/Social/QQ'
 s.dependency 'UMengUShare/Social/WeChat'
 
-s.subspec 'BCMLoginSDK' do |sss|
-sss.vendored_frameworks = 'BCMLoginSDK/GT3Captcha.framework'
+#s.subspec 'BCMLoginSDK' do |sss|
+s.vendored_frameworks = 'BCMLoginSDK/GT3Captcha.framework'
 
 
 end
