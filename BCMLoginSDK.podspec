@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 
   s.author           = { 'BCMLoginSDK' => 'ppsheep.qian@gmail.com' }
 
-  s.source           = { :git => 'https://github.com/xww1993/BCMLoginSDK.git', :tag => '#{s.version}' }
+  s.source           = { :git => 'https://github.com/xww1993/BCMLoginSDK.git', :tag => s.version }
 
 #最低iOS系统要求
   s.ios.deployment_target = '8.0'
@@ -32,10 +32,9 @@ Pod::Spec.new do |s|
 #s.libraries = 'resolv'
 
 #这里声明的存放源文件的地址，就是我们实际写的代码
- s.source_files = 'BCMLoginSDK/BCMLoginSDK.framework/**/*.h'
+# s.source_files = 'BCMLoginSDK/BCMLoginSDK.framework/**/*.h'
  s.vendored_frameworks = 'BCMLoginSDK/BCMLoginSDK.framework'
-#s.vendored_frameworks = 'BCMLoginSDK/GT3Captcha.framework'
-s.preserve_paths = 'BCMLoginSDK/*.framework'
+s.preserve_paths = 'BCMLoginSDK/BCMLoginSDK.framework'
 #这里可以用来存放你的资源文件，图片，证书等等
    s.resource_bundles = {
      'BCMLoginSDK' => ['BCMLoginSDK/BCMLoginSDK.framework/*.plist']
@@ -53,11 +52,11 @@ s.dependency 'AFNetworking'
 s.dependency 'SAMKeychain'
 s.dependency 'UMengUShare/Social/QQ'
 s.dependency 'UMengUShare/Social/WeChat'
-s.dependency 'GT3Captcha'
-
-#s.subspec 'BCMLoginSDK' do |sss|
-#s.vendored_frameworks = 'BCMLoginSDK/GT3Captcha.framework'
 
 
-#end
+s.subspec 'BCMLoginSDK' do |sss|
+sss.vendored_frameworks = 'BCMLoginSDK/GT3Captcha/GT3Captcha.framework'
+
+
+end
 end
