@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'BCMLoginSDK'
-  s.version          = '0.0.2'
+  s.version          = '0.0.3'
 
 #这里加上你的工程简介
   s.summary          = 'This is BCMLoginSDK test'
@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 
   s.author           = { 'BCMLoginSDK' => 'ppsheep.qian@gmail.com' }
 
-  s.source           = { :git => "https://github.com/xww1993/BCMLoginSDK.git", :tag => "#{s.version}" }
+  s.source           = { :git => 'https://github.com/xww1993/BCMLoginSDK.git', :tag => '#{s.version}' }
 
 #最低iOS系统要求
   s.ios.deployment_target = '8.0'
@@ -32,13 +32,14 @@ Pod::Spec.new do |s|
 #s.libraries = 'resolv'
 
 #这里声明的存放源文件的地址，就是我们实际写的代码
-# s.source_files = 'BCMLoginSDK/*.framework'
+ s.source_files = 'BCMLoginSDK/BCMLoginSDK.framework/**/*.h'
  s.vendored_frameworks = 'BCMLoginSDK/BCMLoginSDK.framework'
 #s.vendored_frameworks = 'BCMLoginSDK/GT3Captcha.framework'
+s.preserve_paths = 'BCMLoginSDK/*.framework'
 #这里可以用来存放你的资源文件，图片，证书等等
-  # s.resource_bundles = {
-  #   'PPSPrivateStaticLibrary' => ['PPSPrivateStaticLibrary/Assets/*.png']
-  # }
+   s.resource_bundles = {
+     'BCMLoginSDK' => ['BCMLoginSDK/BCMLoginSDK.framework/*.plist']
+   }
 
 #这里声明你需要公开的文件, 有几种声明方式，通配符也支持的，在这里我可以使用通配符PPSPrivateStaticLibrary/Classes/Public/*.h
 
@@ -52,10 +53,11 @@ s.dependency 'AFNetworking'
 s.dependency 'SAMKeychain'
 s.dependency 'UMengUShare/Social/QQ'
 s.dependency 'UMengUShare/Social/WeChat'
+s.dependency 'GT3Captcha'
 
 #s.subspec 'BCMLoginSDK' do |sss|
 #s.vendored_frameworks = 'BCMLoginSDK/GT3Captcha.framework'
 
 
-end
+#end
 end
