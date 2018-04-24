@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'BCMLoginSDK'
-  s.version          = '0.0.3'
+  s.version          = '0.0.5'
 
 #这里加上你的工程简介
   s.summary          = 'This is BCMLoginSDK test'
@@ -17,7 +17,8 @@ Pod::Spec.new do |s|
 
   s.author           = { 'BCMLoginSDK' => 'ppsheep.qian@gmail.com' }
 
-  s.source           = { :git => 'https://github.com/xww1993/BCMLoginSDK.git', :tag => s.version }
+  s.source           = { :git => 'https://github.com/xww1993/BCMLoginSDK.git', :tag => s.version}
+ 
 
 #最低iOS系统要求
   s.ios.deployment_target = '8.0'
@@ -54,7 +55,7 @@ s.dependency 'UMengUShare/Social/QQ'
 s.dependency 'UMengUShare/Social/WeChat'
 
 
-s.subspec 'BCMLoginSDK' do |sss|
+s.subspec 'BCMLoginSDK_GT3Captcha' do |sss|
 sss.vendored_frameworks = 'BCMLoginSDK/GT3Captcha/GT3Captcha.framework'
 
 
