@@ -1,0 +1,6 @@
+framework module CMAccountSDK {
+  umbrella header "CMAccountSDK.h"
+
+  export *
+  module * { export * }
+}

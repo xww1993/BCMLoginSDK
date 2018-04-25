@@ -1,6 +1,0 @@
-framework module BCMLoginSDK {
-  umbrella header "BCMLoginSDK.h"
-
-  export *
-  module * { export * }
-}

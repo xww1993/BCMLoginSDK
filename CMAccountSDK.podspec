@@ -1,9 +1,9 @@
 Pod::Spec.new do |s|
-  s.name             = 'BCMLoginSDK'
-  s.version          = '0.0.5'
+  s.name             = 'CMAccountSDK_Test'
+  s.version          = '0.0.6'
 
 #这里加上你的工程简介
-  s.summary          = 'This is BCMLoginSDK test'
+  s.summary          = 'This is CMAccountSDK test'
 
 #这里加上你的工程简介
   s.description      = <<-DESC
@@ -34,7 +34,7 @@ Pod::Spec.new do |s|
 
 #这里声明的存放源文件的地址，就是我们实际写的代码
 # s.source_files = 'BCMLoginSDK/BCMLoginSDK.framework/**/*.h'
- s.vendored_frameworks = 'BCMLoginSDK/BCMLoginSDK.framework'
+ s.vendored_frameworks = 'BCMLoginSDK/CMAccountSDK.framework'
 s.preserve_paths = 'BCMLoginSDK/BCMLoginSDK.framework'
 #这里可以用来存放你的资源文件，图片，证书等等
    s.resource_bundles = {
@@ -43,7 +43,7 @@ s.preserve_paths = 'BCMLoginSDK/BCMLoginSDK.framework'
 
 #这里声明你需要公开的文件, 有几种声明方式，通配符也支持的，在这里我可以使用通配符PPSPrivateStaticLibrary/Classes/Public/*.h
 
-#s.public_header_files = 'PPSPrivateStaticLibrary/Classes/Public/*.h'
+s.public_header_files = 'BCMLoginSDK/CMAccountSDK.framework/Headers/*.h'
 #也可以一个一个写出来[]
 #s.public_header_files = ['PPSPrivateStaticLibrary/Classes/Public/PPSPublic1.h',
 #                          'PPSPrivateStaticLibrary/Classes/Public/PPSPublic2.h']
@@ -55,7 +55,7 @@ s.dependency 'UMengUShare/Social/QQ'
 s.dependency 'UMengUShare/Social/WeChat'
 
 
-s.subspec 'BCMLoginSDK_GT3Captcha' do |sss|
+s.subspec 'CMAccountSDK_GT3Captcha' do |sss|
 sss.vendored_frameworks = 'BCMLoginSDK/GT3Captcha/GT3Captcha.framework'
 
 

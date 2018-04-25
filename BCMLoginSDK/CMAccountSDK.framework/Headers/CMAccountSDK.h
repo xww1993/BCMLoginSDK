@@ -16,6 +16,6 @@ FOUNDATION_EXPORT const unsigned char BCMLoginSDKVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <BCMLoginSDK/PublicHeader.h>
 
-#import <BCMLoginSDK/BCMLoginManage.h>
-#import <BCMLoginSDK/BCMLoginApiObject.h>
-#import <BCMLoginSDK/BCMLoginSDKConfig.h>
+#import <CMAccountSDK/CodeMaoAccount.h>
+#import <CMAccountSDK/CMLoginApiObject.h>
+#import <CMAccountSDK/CMLoginSDKConfig.h>

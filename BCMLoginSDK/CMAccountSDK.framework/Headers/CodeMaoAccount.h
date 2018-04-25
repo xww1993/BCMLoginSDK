@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BCMLoginSDKConfig.h"
+#import "CMLoginSDKConfig.h"
 @class BCMUserInfoModel;
 @class JYManageHelp;
 @class BCMAccountStatusModel;
@@ -16,9 +16,9 @@
  请求返回 Block (数据未处理)
 
  @param responseObject 返回信息
- @param error 可根据 - (NSString *)returnErrorStringWithError:(NSError *)error; 获取相应的提示;
+ @param error 可根据 - (id  )returnErrorCode:(NSError *)error;; 获取相应的错误 Code;
  */
-typedef void (^BCMLoginResult) ( NSDictionary * _Nullable responseObject, NSError * _Nullable error);
+typedef void (^BCMLoginResult) ( id _Nullable responseObject, NSError * _Nullable error);
 
 /**
  数据处理过的返回 Block
@@ -29,7 +29,7 @@ typedef void (^BCMLoginResult) ( NSDictionary * _Nullable responseObject, NSErro
  */
 typedef void (^BCMLoginSDKCompletionHandler) (id _Nullable respond, NSError * _Nullable error, id _Nullable sourceInfo);
 NS_ASSUME_NONNULL_BEGIN
-@interface BCMLoginManage : NSObject
+@interface CodeMaoAccount : NSObject
 //测试模式下优先级最高
 @property (nonatomic, readonly, copy) NSString * test_BaseURL;
 @property (nonatomic, readonly, strong) BCMUserInfoModel * userInfoModel;
@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @return 单例
  */
-+ (BCMLoginManage *)defaultManager;
++ (CodeMaoAccount *)defaultManager;
 
 /**
  设置 Debug 模式;
@@ -80,11 +80,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  获取登录返回的 Token;
+ PS: 可以根据此返回值是否为空判断是否登录;
  @return 当前登录用户的 Token
  */
 - (NSString *)getAccountToken;
 
-
+/**
+ 判断是否登录
+ */
+- (BOOL )isLogin;
 /**
  退出登录
  */
@@ -140,7 +144,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)phoneLogin:(NSString *)UesrPhone verificationCode:(NSString *)VerificationCode completionHandler:(BCMLoginSDKCompletionHandler)CompletionHandler;
 
 #pragma mark- 第三方登录
-    
+//MARK: Key 的作用是用来和后台验证的
+//并没有在 SDK 调用注册 QQ 微信的方法;
+//请自行调试完成,所有的基础是 QQ 微信集成注册成功;
 /**
  设置微信的 AppKey
  */
@@ -161,7 +167,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  QQ登录接口
- //MAKR: 先设置 SourceID
+ //MAKR: 先设置 QQ AppKey
  @param CompletionHandler 返回结果
  */
 - (void)loginByQQ:(BCMLoginSDKCompletionHandler)CompletionHandler;
@@ -343,93 +349,73 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark- 获取信息详情
 
 /**
- 异步判断是否登录
- 登录CompletionHandler直接返回缓存数据;
- 未登录调请求返回实时数据;
- (未完成!!!!!!)---<------
-
+ 异步判断是否登录根据状态返回信息  --- >进入 App 调用的接口;
+ 登录且没过期  -->  CompletionHandler直接返回缓存数据;
+ 登录但过期   -->  CompletionHandler 报 Token 过期错误;
+ 未登录      --> CompletionHandler 报需要登录的错误;
+ 根据错误返回的 Error.code 以及 BCMSDKErrorCode(BCMLoginSDKConfig.h文件中)来判断错误类型;
  @param CompletionHandler CompletionHandler
  */
 - (void)getCachedUserInfo:(BCMLoginSDKCompletionHandler)CompletionHandler;
 /**
  获取用户详情(网络接口请求)
- @param Result 返回请求结果
+ @param CompletionHandler 返回请求结果
  */
-- (void)getBasicAuthUserInfo:(BCMLoginResult)Result;
+- (void)getDetailUserInfo:(BCMLoginSDKCompletionHandler)CompletionHandler;
 
 /**
  获取用户信息(从本地缓存)
- //TODO: 判断 TOKEN过期;
+ Ps : 会判断 token是否过期  过期返回 nil;
  @return 返回用户信息 Model;
  */
 - (BCMUserInfoModel *)getCachedUserInfo;
 /**
  获取账号状态
 
- @param Result 返回请求结果
+ @param CompletionHandler 返回请求结果
  */
-- (void)loadAccountStatusResult:(BCMLoginResult)Result;
-#pragma mark- 极验
-/**
- 进入需要极验的界面显示之前调用的方法
-    <<Request :初始化极验 >>>>
+- (void)getBasicAuthUserInfo:(BCMLoginSDKCompletionHandler)CompletionHandler;
 
- @param Result 结果(返回即成功)
- */
-- (void)startRegistJYManager:(void(^)(void))Result;
+#pragma mark- 验证码
 
-/**
- 普通极验验证码发送
-
- @param Phone 手机号码
- @param success 验证码发送成功
- @param failure 验证码发送失败
- @param animated 是否动画
- */
-- (void)sendCommonCaptcha:(NSString *)Phone success:(void (^)(void))success failure:(void (^)(void))failure animated:(BOOL)animated;
 
 /**
  注册极验验证码发送
-
- @param Phone 手机号码
- @param success 验证码发送成功
- @param failure 验证码发送失败
- @param animated 是否动画
  */
-- (void)getRegisterCaptcha:(NSString *)Phone success:(void (^)(void))success failure:(void (^)(void))failure animated:(BOOL)animated;
+- (void)getRegisterCaptcha:(NSString *)Phone result:(void (^)(BOOL Success))Result;
 /**
- 登录极验验证码发送
- 
- @param Phone 手机号码
- @param success 验证码发送成功
- @param failure 验证码发送失败
- @param animated 是否动画
+ 登录验证码发送
  */
-- (void)getLoginCaptcha:(NSString *)Phone success:(void (^)(void))success failure:(void (^)(void))failure animated:(BOOL)animated;
+- (void)getLoginCaptcha:(NSString *)Phone result:(void (^)(BOOL Success))Result;
 /**
- 重设密码极验验证码发送(未登录找回密码)
- 
- @param Phone 手机号码
- @param success 验证码发送成功
- @param failure 验证码发送失败
- @param animated 是否动画
+ 重设密码验证码发送(未登录找回密码)
+
  */
-- (void)sendResetPasswordCaptcha:(NSString *)Phone success:(void (^)(void))success failure:(void (^)(void))failure animated:(BOOL)animated;
+- (void)getResetPasswordCaptcha:(NSString *)Phone result:(void (^)(BOOL Success))Result;
 
 
-
-
-/**
- 根据错误返回错误提示;
-
- @param NSString @""
- @return 错误提示;
- */
 #pragma mark - 错误码获取方法
-- (NSString *)returnErrorStringWithError:(NSError *)error;
+
+/**
+ 根据错误返回错误码
+ PS : 这里请注意下
+ 1.如果  -->  [error.domain isEqualToString:BCMLOGINSDK_ERROR_DOMAIN]; 这是 SDK 内部处理返回的类
+ 根据错误返回的 Error.code 以及 BCMSDKErrorCode(BCMLoginSDKConfig.h文件中)来判断错误类型;
+ 2.后台的请求类返回的错误为 BCMLoginErrorCode.Plist 里面的错误码;
+ 
+ @return 错误码
+ */
+- (NSString *)returnErrorCode:(NSError *)error;
+//__attribute__((deprecated("参考SDK集成文件里的ErrorCodeList ")))
+- (NSString *)returnErrorString:(NSError *)error ;
+/**
+ 根据错误返回错误码以及状态码
+
+ @param error 传入错误
+ @param CallBack 处理结果((NSNumber*),())
+ */
+- (void)errorType:(NSError *)error callBack:(void (^)(id _Nullable BCMErrorCode, id _Nullable ResErrorCode, id _Nullable  ResStatuCode ))CallBack;
 @end
 NS_ASSUME_NONNULL_END
-//@interface BCMLoginManage (UMengLoginSDKInitialize)
-//- (void)initializeUMengSDK_QQ_WithAppKey:(NSString *)Key appSecret:(NSString *)Secret redirectURL:(NSString *)URL;
-//@end
+
 

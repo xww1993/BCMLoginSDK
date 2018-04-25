@@ -1,5 +1,5 @@
 //
-//  BCMLoginApiObject.h
+//  CMLoginApiObject.h
 //  BCMLoginSDK
 //
 //  Created by code_xw on 2018/4/12.
@@ -10,13 +10,15 @@
 
 
 @interface BCMUserInfoModel : NSObject
-//MARK: 这个不能通过传值改变
-@property (nonatomic, copy) NSString * user_id;
+
+@property (nonatomic, readonly ,copy) NSString * user_id;
 
 @property (nonatomic, copy) NSString * nickname;
 @property (nonatomic, copy) NSString * avatar_url;
 @property (nonatomic, copy) NSString * fullname;
+//格林威治时间1970年01月01日00时00分00秒(北京时间1970年01月01日08时00分00秒)起至现在的总秒数, 如2018年1月1日，即birthday值为:1514736000
 @property (nonatomic, copy) NSString * birthday;
+// 性别 0女  1男
 @property (nonatomic, copy) NSString * sex;
 @property (nonatomic, copy) NSString * user_description;
 

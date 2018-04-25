@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 
 
-#define IS_DEBUGMODE [BCMLoginManage defaultManager].isDebugMode
-#define DEBUGMODE_TEST_URL [BCMLoginManage defaultManager].test_BaseURL
+#define IS_DEBUGMODE [CodeMaoAccount defaultManager].isDebugMode
+#define DEBUGMODE_TEST_URL [CodeMaoAccount defaultManager].test_BaseURL
 
 #ifdef DEBUG
 #define DLog(...)  NSLog(__VA_ARGS__)
@@ -28,11 +28,12 @@ typedef NS_ENUM(NSUInteger, BCMSDKErrorCode) {
     BCMSDKErrorCode_TokenExpired//Token 过期需要重新登录
 };
 typedef NS_ENUM(NSUInteger, BCMSDKCaptchaType) {
-    BCMSDKCaptchaType_UpdatePassword = 1,
-    BCMSDKCaptchaType_ResetPassword,
+    BCMSDKCaptchaType_UpdatePassword = 1,//更新密码
+    BCMSDKCaptchaType_ResetPassword,     //重置密码
 };
 
 FOUNDATION_EXTERN NSString * const BCMLOGINSDK_VERSION;
+FOUNDATION_EXTERN NSString * const BCMLOGINSDK_VERSION_CODE;
 FOUNDATION_EXTERN NSString * const BCMLOGINSDK_ERROR_DOMAIN;
 
 
