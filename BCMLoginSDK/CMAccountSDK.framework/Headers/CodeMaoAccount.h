@@ -16,7 +16,7 @@
  请求返回 Block (数据未处理)
 
  @param responseObject 返回信息
- @param error 可根据 - (id  )returnErrorCode:(NSError *)error;; 获取相应的错误 Code;
+ @param error 可根据 - (NSString *)returnErrorStringWithError:(NSError *)error; 获取相应的提示;
  */
 typedef void (^BCMLoginResult) ( id _Nullable responseObject, NSError * _Nullable error);
 
@@ -80,7 +80,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  获取登录返回的 Token;
- PS: 可以根据此返回值是否为空判断是否登录;
  @return 当前登录用户的 Token
  */
 - (NSString *)getAccountToken;
@@ -359,9 +358,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getCachedUserInfo:(BCMLoginSDKCompletionHandler)CompletionHandler;
 /**
  获取用户详情(网络接口请求)
- @param CompletionHandler 返回请求结果
+ @param Result 返回请求结果
  */
-- (void)getDetailUserInfo:(BCMLoginSDKCompletionHandler)CompletionHandler;
+- (void)getDetailUserInfo:(BCMLoginResult)Result;
 
 /**
  获取用户信息(从本地缓存)
@@ -372,9 +371,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  获取账号状态
 
- @param CompletionHandler 返回请求结果
+ @param Result 返回请求结果
  */
-- (void)getBasicAuthUserInfo:(BCMLoginSDKCompletionHandler)CompletionHandler;
+- (void)getBasicAuthUserInfo:(BCMLoginResult)Result;
 
 #pragma mark- 验证码
 
@@ -394,8 +393,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getResetPasswordCaptcha:(NSString *)Phone result:(void (^)(BOOL Success))Result;
 
 
-#pragma mark - 错误码获取方法
 
+
+/**
+ 根据错误返回错误提示;
+
+ @param NSError  返回的错误
+ @return 错误提示;
+ */
+#pragma mark - 错误码获取方法
+- (NSString *)returnErrorString:(NSError *)error;
+//MARK: 下面接口未完成
 /**
  根据错误返回错误码
  PS : 这里请注意下
@@ -405,17 +413,11 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return 错误码
  */
-- (NSString *)returnErrorCode:(NSError *)error;
-//__attribute__((deprecated("参考SDK集成文件里的ErrorCodeList ")))
-- (NSString *)returnErrorString:(NSError *)error ;
-/**
- 根据错误返回错误码以及状态码
-
- @param error 传入错误
- @param CallBack 处理结果((NSNumber*),())
- */
-- (void)errorType:(NSError *)error callBack:(void (^)(id _Nullable BCMErrorCode, id _Nullable ResErrorCode, id _Nullable  ResStatuCode ))CallBack;
+- (id  )returnErrorCode:(NSError *)error;
+- (void)errorType:(NSError *)error callBack:(void (^)(id _Nullable BCMErrorCode, id _Nullable ResErrorCode, NSString * _Nullable  ResHead ))CallBack;
 @end
 NS_ASSUME_NONNULL_END
-
+//@interface BCMLoginManage (UMengLoginSDKInitialize)
+//- (void)initializeUMengSDK_QQ_WithAppKey:(NSString *)Key appSecret:(NSString *)Secret redirectURL:(NSString *)URL;
+//@end
 

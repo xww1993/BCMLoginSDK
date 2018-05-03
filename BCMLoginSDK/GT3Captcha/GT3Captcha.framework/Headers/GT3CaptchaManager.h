@@ -10,7 +10,7 @@
 #import "GT3Utils.h"
 #import "GT3Error.h"
 
-@protocol GT3CaptchaManagerDelegate, GT3CaptchaManagerViewDelegate;
+@protocol GT3CaptchaManagerDelegate, GT3CaptchaManagerViewDelegate, GT3CaptchaManagerStatisticDelegate;
 
 @interface GT3CaptchaManager : NSObject
 
@@ -21,6 +21,8 @@
 @property (nonatomic, weak) id<GT3CaptchaManagerDelegate> delegate;
 /** 验证视图代理 */
 @property (nonatomic, weak) id<GT3CaptchaManagerViewDelegate> viewDelegate;
+/** 验证统计代理 */
+@property (nonatomic, weak) id<GT3CaptchaManagerStatisticDelegate> statisticDelegate;
 
 /** 验证状态 */
 @property (nonatomic, readonly) GT3CaptchaState captchaState;
@@ -43,7 +45,9 @@
 #pragma mark 基本方法
 
 /** 验证单例 */
-+ (instancetype)sharedGTManager;
++ (instancetype)sharedGTManagerWithAPI1:(NSString *)api_1
+                                   API2:(NSString *)api_2
+                                timeout:(NSTimeInterval)timeout;
 
 /**
  *  @abstract 验证初始化方法
@@ -121,7 +125,7 @@
  *  内部先调用`stopGTCaptcha`后, 在主线程延迟0.3秒后
  *  执行`startCaptcha`的内部方法。
  *  只在`GT3CaptchaStateFail`,`GT3CaptchaStateError`,
- *  `GT3CaptchaStateSuccess`状态下执行。
+ *  `GT3CaptchaStateSuccess`, `GT3CaptchaStateCancel`状态下执行。
  */
 - (void)resetGTCaptcha;
 
@@ -162,7 +166,7 @@
  *
  *  @discussion
  *  为了能方便的调试动画,真机调试模拟低速网络 Settings->Developer
- *  ->Status->Enable->Edge(E网,2.5G😂)
+ *  ->Status->Enable->Edge(😂)
  *
  *  @param animationBlock 自定义时需要实现的动画block,仅在type配置为GTIndicatorCustomType时才执行
  *  @param type           状态指示器的类型
@@ -271,7 +275,9 @@
 /**
  *  @abstract 将要向<b>API1</b>发送请求的时候调用此方法, 通过此方法可以修改将要发送的请求
  *
- *  @discussion 调用此方法的时候必须执行<b>requestHandler</b>, 否则导致内存泄露
+ *  @warning 不支持子线程操作。
+ *
+ *  @discussion 调用此方法的时候必须执行<b>requestHandler</b>, 否则可能导致内存泄露。
  *
  *  @param manager         验证管理器
  *  @param originalRequest 默认发送的请求对象
@@ -282,6 +288,8 @@
 /**
  *  @abstract 当接收到从<b>API1</b>的数据, 通知返回字典, 包括<b>gt_public_key</b>,
  *  <b>gt_challenge</b>, <b>gt_success_code</b>
+ *
+ *  @warning 不支持子线程操作。
  *
  *  @discussion
  *  如果实现此方法, 需要解析验证需要的数据并返回。
@@ -325,7 +333,9 @@
 - (BOOL)shouldUseDefaultSecondaryValidate:(GT3CaptchaManager *)manager;
 
 /**
- *  @abstract 通知即将进行二次验证, 再次修改发送至<b>API2</b>的验证
+ *  @abstract 通知即将进行二次验证, 再次修改发送至<b>API2</b>的验证。
+ *
+ *  @warning 不支持子线程操作。
  *
  *  @discussion
  *  请不要修改<b>requestHandler</b>执行所在的线程或队列, 否则可能导
@@ -351,7 +361,7 @@
 @optional
 
 /**
- *  通知验证模式
+ *  @abstract 通知验证模式
  *
  *  @param manager 验证管理器
  *  @param mode    验证模式
@@ -359,14 +369,14 @@
 - (void)gtCaptcha:(GT3CaptchaManager *)manager notifyCaptchaMode:(GT3CaptchaMode)mode;
 
 /**
- *  通知将要显示图形验证
+ *  @abstract 通知将要显示图形验证
  *
  *  @param manager 验证管理器
  */
 - (void)gtCaptchaWillShowGTView:(GT3CaptchaManager *)manager;
 
 /**
- *  更新验证状态
+ *  @abstract 更新验证状态
  *
  *  @param manager 验证管理器
  *  @param state   验证状态
@@ -375,7 +385,7 @@
 - (void)gtCaptcha:(GT3CaptchaManager *)manager updateCaptchaStatus:(GT3CaptchaState)state error:(GT3Error *)error;
 
 /**
- *  更新验证视图
+ *  @abstract 更新验证视图
  *
  *  @param manager         验证管理器
  *  @param fromValue       起始值
@@ -383,5 +393,17 @@
  *  @param timeInterval    时间间隔
  */
 - (void)gtCaptcha:(GT3CaptchaManager *)manager updateCaptchaViewWithFactor:(CGFloat)fromValue to:(CGFloat)toValue timeInterval:(NSTimeInterval)timeInterval;
+
+@end
+
+@protocol GT3CaptchaManagerStatisticDelegate <NSObject>
+
+@optional
+
+- (void)gtCaptchaDidStartCaptcha:(GT3CaptchaManager *)manager;
+- (void)gtCaptcha:(GT3CaptchaManager *)manager didReceiveFullpageResult:(NSString *)result;
+- (void)gtCaptchaNotifyGTViewDidReady:(GT3CaptchaManager *)manager;
+
+- (void)gtCaptcha:(GT3CaptchaManager *)manager didReturnStatisticInfomation:(NSData *)data;
 
 @end

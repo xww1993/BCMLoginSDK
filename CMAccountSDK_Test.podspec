@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'CMAccountSDK_Test'
-  s.version          = '0.0.6'
+  s.version          = '0.0.7'
 
 #这里加上你的工程简介
   s.summary          = 'This is CMAccountSDK test'
@@ -34,30 +34,58 @@ Pod::Spec.new do |s|
 
 #这里声明的存放源文件的地址，就是我们实际写的代码
 # s.source_files = 'BCMLoginSDK/BCMLoginSDK.framework/**/*.h'
-s.vendored_frameworks = 'BCMLoginSDK/CMAccountSDK.framework'
-s.preserve_paths = 'BCMLoginSDK/BCMLoginSDK.framework'
+#s.vendored_frameworks = 'BCMLoginSDK/CMAccountSDK.framework'
+#s.preserve_paths = 'BCMLoginSDK/CMAccountSDK.framework'
 #这里可以用来存放你的资源文件，图片，证书等等
    s.resource_bundles = {
-     'BCMLoginSDK' => ['BCMLoginSDK/BCMLoginSDK.framework/*.plist']
+     'BCMLoginSDK' => ['BCMLoginSDK/CMAccountSDK.framework/*.plist']
    }
 
 #这里声明你需要公开的文件, 有几种声明方式，通配符也支持的，在这里我可以使用通配符PPSPrivateStaticLibrary/Classes/Public/*.h
 
-s.public_header_files = 'BCMLoginSDK/CMAccountSDK.framework/Headers/*.h'
+#s.public_header_files = 'BCMLoginSDK/CMAccountSDK.framework/Headers/*.h'
 #也可以一个一个写出来[]
 #s.public_header_files = ['PPSPrivateStaticLibrary/Classes/Public/PPSPublic1.h',
 #                          'PPSPrivateStaticLibrary/Classes/Public/PPSPublic2.h']
 
 #这里可以声明你的静态库依赖的其他静态库
-s.dependency 'AFNetworking'
-s.dependency 'SAMKeychain'
-s.dependency 'UMengUShare/Social/QQ'
-s.dependency 'UMengUShare/Social/WeChat'
+#s.dependency 'AFNetworking'
+#s.dependency 'SAMKeychain'
+#s.dependency 'UMengUShare/Social/QQ'
+#s.dependency 'UMengUShare/Social/WeChat'
+
+s.subspec 'CMLoginSDK' do |ss|
+
+ss.vendored_frameworks = 'BCMLoginSDK/CMAccountSDK.framework'
+ss.preserve_paths = 'BCMLoginSDK/CMAccountSDK.framework'
+#这里可以用来存放你的资源文件，图片，证书等等
+   ss.resource_bundles = {
+     'BCMLoginSDK' => ['BCMLoginSDK/CMAccountSDK.framework/*.plist']
+   }
+ss.dependency 'AFNetworking'
+ss.dependency 'SAMKeychain'
+
+end
+
+s.subspec 'Social' do |Social|
+
+Social.subspec 'GT3Captcha' do |GT3Captcha|
+GT3Captcha.vendored_frameworks = 'BCMLoginSDK/GT3Captcha/GT3Captcha.framework'
+GT3Captcha.resource = 'BCMLoginSDK/GT3Captcha/GT3Captcha.bundle'
+
+end
+
+Social.subspec 'WeChat' do |WeChat|
+
+WeChat.dependency 'WechatOpenSDK'
+
+end
+
+Social.subspec 'QQ' do |QQ|
+QQ.dependency 'UMengUShare/Social/QQ'
 
 
-s.subspec 'CMAccountSDK_GT3Captcha' do |sss|
-sss.vendored_frameworks = 'BCMLoginSDK/GT3Captcha/GT3Captcha.framework'
-
+end
 
 end
 end
