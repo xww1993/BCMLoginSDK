@@ -80,7 +80,7 @@ s.dependency 'SAMKeychain'
 	end
 
 	sss.subspec 'QQ' do |s3|
-	s3.dependency 'UMengUShare/Social/QQ'
+	s3.vendored_frameworks = 'BCMLoginSDK/QQ/GT3Captcha.framework'
 	end
 
   end
