@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'CMAccountSDK_Test'
-  s.version          = '0.0.7'
+  s.version          = '0.0.8'
 
 #这里加上你的工程简介
   s.summary          = 'This is CMAccountSDK test'
@@ -80,7 +80,8 @@ s.dependency 'SAMKeychain'
 	end
 
 	sss.subspec 'QQ' do |s3|
-	s3.vendored_frameworks = 'BCMLoginSDK/QQ/GT3Captcha.framework'
+	s3.vendored_frameworks = 'BCMLoginSDK/QQ/TencentOpenAPI.framework'
+	s3.frameworks = 'SystemConfiguration'
 	end
 
   end

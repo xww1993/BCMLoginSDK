@@ -16,7 +16,7 @@
  请求返回 Block (数据未处理)
 
  @param responseObject 返回信息
- @param error 可根据 - (NSString *)returnErrorStringWithError:(NSError *)error; 获取相应的提示;
+ @param error 可根据 - (id  )returnErrorCode:(NSError *)error;; 获取相应的错误 Code;
  */
 typedef void (^BCMLoginResult) ( id _Nullable responseObject, NSError * _Nullable error);
 
@@ -55,8 +55,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  设置 Debug 模式;
  */
-- (void)setDebugMode;
-
+- (void)setMode:(CMLoginSDKMode)Mode;
+- (CodeMaoAccount * (^)(CMLoginSDKMode Model))setMode;
 /**
  设置 Debug 模式 & 服务器地址
 
@@ -80,6 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  获取登录返回的 Token;
+ PS: 可以根据此返回值是否为空判断是否登录;
  @return 当前登录用户的 Token
  */
 - (NSString *)getAccountToken;
@@ -149,8 +150,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  设置微信的 AppKey
  */
-- (void)setWeChatAppKey:(NSString *)key;
-
+- (void)setWeChatAppKey:(NSString *)Key;
+- (CodeMaoAccount * (^)(NSString * _Nonnull Key))setWeChatAppKey;
 
 /**
  微信登录
@@ -162,8 +163,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  设置QQ互联的 AppKeY
  */
-- (void)setQQAppKey:(NSString *)key;
-
+- (void)setQQAppKey:(NSString *)Key;
+- (CodeMaoAccount * (^)(NSString * _Nonnull Key))setQQAppKey;
 /**
  QQ登录接口
  //MAKR: 先设置 QQ AppKey
@@ -353,14 +354,14 @@ NS_ASSUME_NONNULL_BEGIN
  登录但过期   -->  CompletionHandler 报 Token 过期错误;
  未登录      --> CompletionHandler 报需要登录的错误;
  根据错误返回的 Error.code 以及 BCMSDKErrorCode(BCMLoginSDKConfig.h文件中)来判断错误类型;
- @param CompletionHandler CompletionHandler
+ @param CompletionHandler CompletionHandler (BCMUserInfoModel *, NSError * , id)
  */
 - (void)getCachedUserInfo:(BCMLoginSDKCompletionHandler)CompletionHandler;
 /**
  获取用户详情(网络接口请求)
- @param Result 返回请求结果
+ @param CompletionHandler 返回请求结果(BCMUserInfoModel *, NSError * , id)
  */
-- (void)getDetailUserInfo:(BCMLoginResult)Result;
+- (void)getDetailUserInfo:(BCMLoginSDKCompletionHandler)CompletionHandler;
 
 /**
  获取用户信息(从本地缓存)
@@ -371,9 +372,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  获取账号状态
 
- @param Result 返回请求结果
+ @param CompletionHandler 返回请求结果 (BCMAccountStatusModel *, NSError * , id)
  */
-- (void)getBasicAuthUserInfo:(BCMLoginResult)Result;
+- (void)getBasicAuthUserInfo:(BCMLoginSDKCompletionHandler)CompletionHandler;
 
 #pragma mark- 验证码
 
@@ -393,17 +394,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getResetPasswordCaptcha:(NSString *)Phone result:(void (^)(BOOL Success))Result;
 
 
-
-
-/**
- 根据错误返回错误提示;
-
- @param NSError  返回的错误
- @return 错误提示;
- */
 #pragma mark - 错误码获取方法
-- (NSString *)returnErrorString:(NSError *)error;
-//MARK: 下面接口未完成
+
 /**
  根据错误返回错误码
  PS : 这里请注意下
@@ -413,11 +405,17 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return 错误码
  */
-- (id  )returnErrorCode:(NSError *)error;
-- (void)errorType:(NSError *)error callBack:(void (^)(id _Nullable BCMErrorCode, id _Nullable ResErrorCode, NSString * _Nullable  ResHead ))CallBack;
+- (NSString *)returnErrorCode:(NSError *)error;
+
+- (NSString *)returnErrorString:(NSError *)error __attribute__((deprecated("参考SDK集成文件里的ErrorCodeList ")));
+/**
+ 根据错误返回错误码以及状态码
+
+ @param error 传入错误
+ @param CallBack 处理结果((NSNumber*),())
+ */
+- (void)errorType:(NSError *)error callBack:(void (^)(id _Nullable BCMErrorCode, id _Nullable ResErrorCode, id _Nullable  ResStatuCode ))CallBack;
 @end
 NS_ASSUME_NONNULL_END
-//@interface BCMLoginManage (UMengLoginSDKInitialize)
-//- (void)initializeUMengSDK_QQ_WithAppKey:(NSString *)Key appSecret:(NSString *)Secret redirectURL:(NSString *)URL;
-//@end
+
 

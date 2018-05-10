@@ -31,8 +31,14 @@ typedef NS_ENUM(NSUInteger, BCMSDKCaptchaType) {
     BCMSDKCaptchaType_UpdatePassword = 1,//更新密码
     BCMSDKCaptchaType_ResetPassword,     //重置密码
 };
+typedef NS_ENUM(NSUInteger, CMLoginSDKMode) {
+    CMLoginSDKMode_Debug,
+    CMLoginSDKMode_Pre_Release,
+    CMLoginSDKMode_Release,
+};
 
 FOUNDATION_EXTERN NSString * const BCMLOGINSDK_VERSION;
+FOUNDATION_EXTERN NSString * const BCMLOGINSDK_VERSION_CODE;
 FOUNDATION_EXTERN NSString * const BCMLOGINSDK_ERROR_DOMAIN;
 
 
