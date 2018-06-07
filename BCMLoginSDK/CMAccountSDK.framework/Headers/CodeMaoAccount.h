@@ -28,6 +28,9 @@ typedef void (^BCMLoginResult) ( id _Nullable responseObject, NSError * _Nullabl
  @param sourceInfo 网络请求的话这里会返回原始数据
  */
 typedef void (^BCMLoginSDKCompletionHandler) (id _Nullable respond, NSError * _Nullable error, id _Nullable sourceInfo);
+
+
+
 NS_ASSUME_NONNULL_BEGIN
 @interface CodeMaoAccount : NSObject
 //测试模式下优先级最高
@@ -143,10 +146,18 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)phoneLogin:(NSString *)UesrPhone verificationCode:(NSString *)VerificationCode completionHandler:(BCMLoginSDKCompletionHandler)CompletionHandler;
 
+#pragma mark - 登录判断账号状态
+
+/**
+ 登录并获取用户状态的接口
+
+ @param Callback 返回当前用户手机,邮箱状态;
+ */
+- (void)loginByQQCheckAuthState:(void(^)(BOOL BindPhone, BOOL EmailAuth, NSError * _Nullable error))Callback;
+- (void)loginByWeChatCheckAuthState:(void(^)(BOOL BindPhone, BOOL EmailAuth, NSError * _Nullable error))Callback;
+- (void)accountLoginCheckAuthState:(NSString *)Account passwords:(NSString *)Passwords checkAuthStatu:(void(^)(BOOL BindPhone, BOOL EmailAuth, NSError * _Nullable error))Callback;
 #pragma mark- 第三方登录
-//MARK: Key 的作用是用来和后台验证的
-//并没有在 SDK 调用注册 QQ 微信的方法;
-//请自行调试完成,所有的基础是 QQ 微信集成注册成功;
+
 /**
  设置微信的 AppKey
  */
@@ -376,22 +387,22 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)getBasicAuthUserInfo:(BCMLoginSDKCompletionHandler)CompletionHandler;
 
-#pragma mark- 验证码
+#pragma mark- 极验验证码
 
 
 /**
  注册极验验证码发送
  */
-- (void)getRegisterCaptcha:(NSString *)Phone result:(void (^)(BOOL Success))Result;
+- (void)getRegisterCaptcha:(NSString *)Phone result:(void (^)(BOOL Success, NSString * errorCode))Result;
 /**
  登录验证码发送
  */
-- (void)getLoginCaptcha:(NSString *)Phone result:(void (^)(BOOL Success))Result;
+- (void)getLoginCaptcha:(NSString *)Phone result:(void (^)(BOOL Success, NSString * errorCode))Result;
 /**
  重设密码验证码发送(未登录找回密码)
 
  */
-- (void)getResetPasswordCaptcha:(NSString *)Phone result:(void (^)(BOOL Success))Result;
+- (void)getResetPasswordCaptcha:(NSString *)Phone result:(void (^)(BOOL Success, NSString * errorCode))Result;
 
 
 #pragma mark - 错误码获取方法

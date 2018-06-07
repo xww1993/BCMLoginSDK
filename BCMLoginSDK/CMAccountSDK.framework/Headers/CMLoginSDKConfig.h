@@ -20,10 +20,12 @@
 
 typedef NS_ENUM(NSUInteger, BCMSDKErrorCode) {
     BCMSDKErrorCode_NetWorkError,//网络错误
+    BCMSDKErrorCode_WECHATCancle,//微信用户取消登录
+    BCMSDKErrorCode_WECHATReject,//微信用户取消授权
     BCMSDKErrorCode_WECHATLoginFail,//微信登录错误
     BCMSDKErrorCode_WECHATBindFail,//微信绑定错误
     BCMSDKErrorCode_QQLoginFail,//QQ 登录错误
-    BCMSDKErrorCode_QQBindFail,
+    BCMSDKErrorCode_QQBindFail,//QQ 绑定错误
     BCMSDKErrorCode_NeedLogin,//需要登录
     BCMSDKErrorCode_TokenExpired//Token 过期需要重新登录
 };
