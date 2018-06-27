@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'CMAccountSDK_Test'
-  s.version          = '0.0.9'
+  s.version          = '0.1.0'
 
 #这里加上你的工程简介
   s.summary          = 'This is CMAccountSDK test'

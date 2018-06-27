@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CMLoginSDKConfig.h"
+
 @class BCMUserInfoModel;
 @class JYManageHelp;
 @class BCMAccountStatusModel;
@@ -32,11 +33,21 @@ typedef void (^BCMLoginSDKCompletionHandler) (id _Nullable respond, NSError * _N
 
 
 NS_ASSUME_NONNULL_BEGIN
+
+@protocol CodeMaoAccountDelegate <NSObject>
+@optional
+//用于提示开始网络请求;
+//微信/QQ 绑定 登录网络请求开始的状态:
+- (void)willStartNetworkRequest;
+// 预留以后的网络处理完还需要操作的接口
+- (void)didFinishNetworkRequest;
+@end
 @interface CodeMaoAccount : NSObject
 //测试模式下优先级最高
 @property (nonatomic, readonly, copy) NSString * test_BaseURL;
 @property (nonatomic, readonly, strong) BCMUserInfoModel * userInfoModel;
 @property (nonatomic, readonly, strong) BCMAccountStatusModel * accountStatusModel;
+@property (nonatomic, weak) id <CodeMaoAccountDelegate> delegate;
 
 
 /**
@@ -427,6 +438,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)errorType:(NSError *)error callBack:(void (^)(id _Nullable BCMErrorCode, id _Nullable ResErrorCode, id _Nullable  ResStatuCode ))CallBack;
 @end
+
 NS_ASSUME_NONNULL_END
 
 
