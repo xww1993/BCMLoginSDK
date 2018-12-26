@@ -19,3 +19,9 @@ FOUNDATION_EXPORT const unsigned char BCMLoginSDKVersionString[];
 #import <CMAccountSDK/CodeMaoAccount.h>
 #import <CMAccountSDK/CMLoginApiObject.h>
 #import <CMAccountSDK/CMLoginSDKConfig.h>
+#import <CMAccountSDK/CodeMaoAccount+Extension.h>
+
+// CMShareSDK Source Code
+#import <CMAccountSDK/CMShareManager.h>
+#import <CMAccountSDK/CMShareModel.h>
+#import <CMAccountSDK/CMShareEnums.h>

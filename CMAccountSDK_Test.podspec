@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'CMAccountSDK_Test'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
 
 #这里加上你的工程简介
   s.summary          = 'This is CMAccountSDK test'
@@ -82,6 +82,10 @@ s.dependency 'SAMKeychain'
 	sss.subspec 'QQ' do |s3|
 	s3.vendored_frameworks = 'BCMLoginSDK/QQ/TencentOpenAPI.framework'
 	s3.frameworks = 'SystemConfiguration'
+	end
+
+	sss.subspec 'TCWebCodesSDK' do |s4|
+	s4.dependency 'TCWebCodesSDK'	
 	end
 
   end
