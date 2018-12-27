@@ -18,6 +18,17 @@
 #define DLog(...)
 #endif
 
+#define FIX_CATEGORY_BUG_H(name) \
+@interface FIX_CATEGORY_BUG_##name : NSObject \
++(void)print; \
+@end
+#define FIX_CATEGORY_BUG_M(name) \
+@implementation FIX_CATEGORY_BUG_##name \
++ (void)print {} \
+@end
+#define ENABLE_CATEGORY(name) [FIX_CATEGORY_BUG_##name print]
+
+
 typedef NS_ENUM(NSUInteger, BCMSDKErrorCode) {
     BCMSDKErrorCode_NetWorkError,//网络错误
     BCMSDKErrorCode_WECHATCancle,//微信用户取消登录

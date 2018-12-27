@@ -9,6 +9,8 @@
 //#import <CMAccountSDK/CodeMaoAccount.h>
 #import "CodeMaoAccount.h"
 
+
+
 @interface CodeMaoAccount (Extension)
 
 /// 判断密码（注册、修改、重置）
@@ -41,3 +43,5 @@
 /// 判断qq号
 + (BOOL)isValidQQ:(NSString*)qq;
 @end
+
+FIX_CATEGORY_BUG_H(CodeMaoAccount)

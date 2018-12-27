@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'CMAccountSDK_Test'
-  s.version          = '0.1.1'
+  s.version          = '0.1.2'
 
 #这里加上你的工程简介
   s.summary          = 'This is CMAccountSDK test'
@@ -59,21 +59,21 @@ Pod::Spec.new do |s|
 s.vendored_frameworks = 'BCMLoginSDK/CMAccountSDK.framework'
 s.preserve_paths = 'BCMLoginSDK/CMAccountSDK.framework'
 #这里可以用来存放你的资源文件，图片，证书等等
-   s.resource_bundles = {
-    'BCMLoginSDK' => ['BCMLoginSDK/CMAccountSDK.framework/*.plist']
-   }
+  # s.resource_bundles = {
+  #  'BCMLoginSDK' => ['BCMLoginSDK/CMAccountSDK.framework/*.plist']
+  # }
 #s.public_header_files = 'BCMLoginSDK/CMAccountSDK.framework/Headers/*.h'
 s.dependency 'AFNetworking'
 s.dependency 'SAMKeychain'
-
+s.dependency 'GT3Captcha'
 
 
   s.subspec 'Social' do |sss|
 
-	sss.subspec 'GT3Captcha' do |s1|
-	s1.vendored_frameworks = 'BCMLoginSDK/GT3Captcha/GT3Captcha.framework'
-	s1.resource = 'BCMLoginSDK/GT3Captcha/GT3Captcha.bundle'
-	end
+	#sss.subspec 'GT3Captcha' do |s1|
+	#s1.vendored_frameworks = 'BCMLoginSDK/GT3Captcha/GT3Captcha.framework'
+	#s1.resource = 'BCMLoginSDK/GT3Captcha/GT3Captcha.bundle'
+	#end
 
 	sss.subspec 'WeChat' do |s2|
 	s2.dependency 'WechatOpenSDK'	
